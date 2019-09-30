@@ -21,6 +21,11 @@ export class ConfirmEmailPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    firebase.auth().onAuthStateChanged((user)=>{
+      if(user.emailVerified){
+        this.navCtrl.navigateForward("home")
+      }
+    })
 
   }
   email = firebase.auth().currentUser.email;

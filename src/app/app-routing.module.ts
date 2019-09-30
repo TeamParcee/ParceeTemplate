@@ -8,6 +8,8 @@ const routes: Routes = [
   { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule' },
   { path: 'confirm-password', loadChildren: './confirm-password/confirm-password.module#ConfirmPasswordPageModule' },
   { path: 'confirm-email', loadChildren: './confirm-email/confirm-email.module#ConfirmEmailPageModule' },
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
 ];
 
 @NgModule({
