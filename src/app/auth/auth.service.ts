@@ -24,7 +24,6 @@ export class AuthService {
   firebaseUser;
   checkEmailVerified() {
     if (firebase.auth().currentUser) {
-      console.log(this.firebaseUser.emailVerified);
       return this.firebaseUser.emailVerified;
     } else {
       return false;

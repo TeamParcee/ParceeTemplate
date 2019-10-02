@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import * as firebase from 'firebase';
 import { HelperService } from 'src/helper.service';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -12,13 +13,16 @@ export class SettingsPage implements OnInit {
   constructor(
     private authService: AuthService,
     private helper: HelperService,
+    private navCtrl: NavController,
   ) { }
 
   itemSelected;
   user;
   ngOnInit() {
+    setInterval(() => {
+      this.checkEmailVerified();
+    }, 1000)
   }
-
 
   ionViewDidEnter() {
     this.getUser();
@@ -56,6 +60,14 @@ export class SettingsPage implements OnInit {
           this.helper.okAlert("Email Not Changed", error.message)
         })
       })
+  }
 
+
+  checkEmailVerified() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user.emailVerified) {
+        this.navCtrl.navigateForward("home")
+      }
+    })
   }
 }

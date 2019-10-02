@@ -4,7 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  {path: 'home', loadChildren: './home/home.module#HomePageModule', canLoad: [AuthGuard]},
+  {path: 'home', loadChildren: './home/home.module#HomePageModule', canActivate: [AuthGuard]},
   { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule' },
   { path: 'confirm-password', loadChildren: './confirm-password/confirm-password.module#ConfirmPasswordPageModule' },
   { path: 'confirm-email', loadChildren: './confirm-email/confirm-email.module#ConfirmEmailPageModule' },

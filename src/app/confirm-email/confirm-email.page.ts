@@ -21,17 +21,20 @@ export class ConfirmEmailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged((user)=>{
-      if(user.emailVerified){
-        this.navCtrl.navigateForward("home")
-      }
-    })
-
+    setInterval(() => {
+      this.checkEmailVerified();
+    }, 1000)
   }
   email = firebase.auth().currentUser.email;
 
 
-  updateEmail(){
+  checkEmailVerified() {
+    firebase.auth().currentUser.reload();
+    if (firebase.auth().currentUser.emailVerified) {
+      this.navCtrl.navigateForward("home")
+    }
+  }
+  updateEmail() {
     this.email = firebase.auth().currentUser.email;
   }
   signout() {
@@ -41,13 +44,13 @@ export class ConfirmEmailPage implements OnInit {
   resendEmail() {
     this.authService.sendConfirmationEmail();
     this.helper.okAlert("Confirmation Email Sent", "A confirmation email has been sent.");
-   
+
   }
 
   changeEmail() {
 
     this.helper.inputAlert("New Email Address", "Enter your new email address", [{ name: "email", value: this.email }]).then((result: any) => {
-      this.authService.changeEmail(result.email).then((email:any)=>{
+      this.authService.changeEmail(result.email).then((email: any) => {
         this.email = email;
         this.resendEmail();
       })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanLoad } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanLoad, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { NavController } from '@ionic/angular';
@@ -10,7 +10,7 @@ import { promise } from 'protractor';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanLoad {
+export class AuthGuard implements CanActivate {
 
   constructor(
     private navCtrl: NavController,
@@ -18,7 +18,7 @@ export class AuthGuard implements CanLoad {
   ) {
 
   }
-  async canLoad() {
+  async canActivate() {
     if (await this.checkLoggedIn()) {
       if (this.checkEmailVerified()) {
         return true;
@@ -35,10 +35,8 @@ export class AuthGuard implements CanLoad {
     return new Promise((resolve) => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          console.log(user);
           return resolve(true)
         } else {
-          console.log(user);
           this.navCtrl.navigateRoot('/auth');
           return resolve(false)
         }
